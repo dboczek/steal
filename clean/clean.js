@@ -109,7 +109,8 @@ steal.plugins('steal/build').then('//steal/clean/beautify','//steal/clean/jslint
 			{indent_size: 1, 
 			 indent_char: '\t', 
 			 space_statement_expression: true,
-			 jquery : false},
+			 jquery : false,
+			 interactive: true},
 			steal.opts(options || {}, {
 				//compress everything, regardless of what you find
 				all : 1,
@@ -162,6 +163,10 @@ steal.plugins('steal/build').then('//steal/clean/beautify','//steal/clean/jslint
 						}
 						
 					}else{
+						if(!options.interactive){
+							print("File "+path+" is not beatuiful. Run clean manually.");
+							quit(2);
+						}
 						if(steal.prompt.yesno("B "+path+" Overwrite? [Yn]")){
 							if(options.print){
 								print(out)
