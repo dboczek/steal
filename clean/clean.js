@@ -13,8 +13,21 @@ steal.plugins('steal/build').then('//steal/clean/beautify','//steal/clean/jslint
 				if(!error.evidence){
 					break;
 				}
-				line = error.evidence.replace(/\t/g,"     ");
-
+				line = error.evidence.replace(/\t/g,"	  ");
+				var message = error.raw;
+				if(error.a !== undefined){
+					message = message.replace(/{a}/,error.a);
+				}
+				if(error.b !== undefined){
+					message = message.replace(/{b}/,error.b);
+				}
+				if(error.c !== undefined){
+					message = message.replace(/{c}/,error.c);
+				}
+				if(error.d !== undefined){
+					message = message.replace(/{d}/,error.d);
+				}
+				print(message);
 				print("    "+error.line+":"+error.character+"  "+
 					line.substring(Math.max(error.character-25, 0), 
 					   Math.min(error.character+25, line.length)).replace(/^\s+/,"")
@@ -121,7 +134,7 @@ steal.plugins('steal/build').then('//steal/clean/beautify','//steal/clean/jslint
 				var errors = lintAndPrint(out, options.predefined || {});
 				if(errors){
 					print("quiting because of JSLint Errors");
-					quit();
+					quit(1);
 				}
 			}
 		}else{
@@ -144,7 +157,7 @@ steal.plugins('steal/build').then('//steal/clean/beautify','//steal/clean/jslint
 							var errors = lintAndPrint(out, options.predefined || {});
 							if(errors){
 								print("quiting because of JSLint Errors");
-								quit();
+								quit(1);
 							}
 						}
 						
@@ -160,7 +173,7 @@ steal.plugins('steal/build').then('//steal/clean/beautify','//steal/clean/jslint
 								var errors = lintAndPrint(out, options.predefined || {});
 								if(errors){
 									print("quiting because of JSLint Errors");
-									quit();
+									quit(1);
 								}
 							}
 						}
